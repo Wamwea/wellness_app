@@ -80,7 +80,7 @@ class FeedBubble extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Account $text",
+                            "User $text",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
@@ -103,22 +103,13 @@ class FeedBubble extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "Title goes here",
+                        "The World’s Oldest Animal Paintings Are on This Cave Wall",
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "$text Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i"
-                        "ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exe"
-                        "rcitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor i"
-                        "n reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur"
-                        " sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
-                        "est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i"
-                        "ncididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exe"
-                        "rcitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor i"
-                        "n reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur"
-                        " sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
-                        "est laborum",
+                        "${"In the Western imagination, ancient cave paintings tend to conjure images of Lascaux, the cave complex in southwestern France that is famous for its exceptionally detailed depictions of humans and animals. The Lascaux paintings, however, are a mere 17,000 years old. The oldest known examples of figurative art, or imagery that shows more than just abstractions, occur in Southeast Asia. Now a painting of pigs discovered in a cave in Indonesia sets a new record for the earliest figurative art—at least 45,500 years old—according to research published on Wednesday in Science Advances.We stress that this is only a minimum age,” says co-author Maxime Aubert, a professor of archeological science at Griffith University in Australia. “The rock art in this region could very well be 60,000 to 65,000 years old. We just need more samples.”"}",
                         style: TextStyle(fontSize: 14),
                       ),
                     ],
