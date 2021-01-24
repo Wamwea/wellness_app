@@ -1,50 +1,68 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Page1 extends StatelessWidget {
+class ThoughtBubbleSection extends StatelessWidget {
+  const ThoughtBubbleSection({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Material(
-          elevation: 10,
-          child: Container(
-            decoration: BoxDecoration(
-                color: Color(0xffF2DFCE),
-                border: Border(
-                    bottom: BorderSide(color: Colors.black, width: 0.2))),
-            height: MediaQuery.of(context).size.height * 0.08,
-            width: double.infinity,
-            child: Center(
-                child: Text(
-              "Thought Bubble",
-              style: GoogleFonts.shadowsIntoLight(
-                  textStyle:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            )),
+    return Scaffold(
+      body: Column(
+        children: [
+          Material(
+            elevation: 10,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Color(0xffF2DFCE),
+                  border: Border(
+                      bottom: BorderSide(color: Colors.black, width: 0.2))),
+              height: MediaQuery.of(context).size.height * 0.08,
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(Icons.settings_rounded),
+                    Text(
+                      "Thought Bubble",
+                      style: GoogleFonts.shadowsIntoLight(
+                          textStyle: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                    ),
+                    Icon(
+                      Icons.add,
+                      size: 40,
+                    )
+                  ],
+                ),
+              ),
+            ),
           ),
-        ),
-        Expanded(
-          child: Container(
-            color: Color(0xffFFF1E5),
-            width: double.infinity,
-            child: Center(
-                child: ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return FeedBubble("${index * 10}");
-                    })),
-          ),
-        )
-      ],
+          Expanded(
+            child: Container(
+              color: Color(0xffFFF1E5),
+              width: double.infinity,
+              child: Center(
+                  child: ListView.builder(
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return FeedBubble(
+                            PageStorageKey("MyState"), "${index * 10}");
+                      })),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
 
 class FeedBubble extends StatelessWidget {
   FeedBubble(
+    Key key,
     this.text,
-  );
+  ) : super(key: key);
   final String text;
   @override
   Widget build(BuildContext context) {
