@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ThoughtBubbleSection extends StatelessWidget {
-  const ThoughtBubbleSection({Key key}) : super(key: key);
+  ThoughtBubbleSection({Key key, this.poemTitles, this.poems, this.poemAuthors})
+      : super(key: key);
+  final List<String> poems;
+  final List<String> poemTitles;
+  final List<String> poemAuthors;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,10 +49,14 @@ class ThoughtBubbleSection extends StatelessWidget {
               width: double.infinity,
               child: Center(
                   child: ListView.builder(
-                      itemCount: 5,
+                      itemCount: poems.length,
                       itemBuilder: (context, index) {
                         return FeedBubble(
-                            PageStorageKey("MyState"), "${index * 10}");
+                          PageStorageKey("MyState"),
+                          poemText: poems[index],
+                          poemTitle: poemTitles[index],
+                          poemAuthor: poemAuthors[index],
+                        );
                       })),
             ),
           )
@@ -59,11 +67,11 @@ class ThoughtBubbleSection extends StatelessWidget {
 }
 
 class FeedBubble extends StatelessWidget {
-  FeedBubble(
-    Key key,
-    this.text,
-  ) : super(key: key);
-  final String text;
+  FeedBubble(Key key, {this.poemText, this.poemTitle, this.poemAuthor})
+      : super(key: key);
+  final String poemText;
+  final String poemTitle;
+  final String poemAuthor;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -98,7 +106,7 @@ class FeedBubble extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "User $text",
+                            "$poemAuthor",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
@@ -121,13 +129,13 @@ class FeedBubble extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "The World’s Oldest Animal Paintings Are on This Cave Wall",
+                        "$poemTitle",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "${"In the Western imagination, ancient cave paintings tend to conjure images of Lascaux, the cave complex in southwestern France that is famous for its exceptionally detailed depictions of humans and animals. The Lascaux paintings, however, are a mere 17,000 years old. The oldest known examples of figurative art, or imagery that shows more than just abstractions, occur in Southeast Asia. Now a painting of pigs discovered in a cave in Indonesia sets a new record for the earliest figurative art—at least 45,500 years old—according to research published on Wednesday in Science Advances.We stress that this is only a minimum age,” says co-author Maxime Aubert, a professor of archeological science at Griffith University in Australia. “The rock art in this region could very well be 60,000 to 65,000 years old. We just need more samples.”"}",
+                        "$poemText",
                         style: TextStyle(fontSize: 14),
                       ),
                     ],

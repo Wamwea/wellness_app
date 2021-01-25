@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wellness_app/screens/LoadingScreen.dart';
 import 'package:wellness_app/screens/network%20screen.dart';
 import 'home_screen.dart';
 import 'package:wellness_app/services/networking.dart';
@@ -155,10 +156,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               GestureDetector(
                                 onTap: () async {
                                   text = await getValue();
-                                  print("text is $text");
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return LoginScreen();
+                                    return HomeScreen();
                                   }));
                                 },
                                 child: Text(

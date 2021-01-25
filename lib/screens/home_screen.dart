@@ -4,6 +4,7 @@ import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:wellness_app/sections/thought_bubble.dart';
 import 'package:wellness_app/sections/chatSection.dart';
 import 'package:wellness_app/sections/goals_section.dart';
+import 'package:wellness_app/Models/thoughtBubbleModel.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,9 +12,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  PoemModel poemModel = PoemModel();
+
   final List<Widget> pages = [
     ThoughtBubbleSection(
       key: PageStorageKey("Page 1"),
+      poems: PoemModel.myPoems,
+      poemTitles: PoemModel.poemTitles,
+      poemAuthors: PoemModel.poemAuthor,
     ),
     Page2(),
     Page3()
