@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Container(child: pages[currentIndex]),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: Colors.black, width: 0.5))),
+              border: Border(top: BorderSide(color: Colors.black, width: 0.9))),
           child: SnakeNavigationBar.color(
             showSelectedLabels: true,
             showUnselectedLabels: false,

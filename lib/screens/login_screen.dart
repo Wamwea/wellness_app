@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wellness_app/screens/network%20screen.dart';
 import 'home_screen.dart';
+import 'package:wellness_app/services/networking.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -9,6 +11,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  Networking networking = Networking();
+  String text;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  dynamic getValue() async {
+    return await networking.getPoems();
+  }
+
   @override
   Widget build(BuildContext context) {
     double maxHeight = MediaQuery.of(context).size.height;
@@ -139,10 +153,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Text("Don't have an account?"),
                               GestureDetector(
-                                onTap: () {
+                                onTap: () async {
+                                  text = await getValue();
+                                  print("text is $text");
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return SignUp();
+                                    return LoginScreen();
                                   }));
                                 },
                                 child: Text(
