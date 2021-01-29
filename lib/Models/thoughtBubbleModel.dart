@@ -1,7 +1,7 @@
 class PoemModel {
   static List<String> myPoems = [];
-  static List<String> poemTitles = [];
   static List<String> poemAuthor = [];
+  static List<String> poemTitles = [];
   void addAuthor(String author) {
     poemAuthor.add(author);
   }

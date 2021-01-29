@@ -6,28 +6,32 @@ class Networking {
   PoemModel poemModel = PoemModel();
   Future<void> getPoems() async {
     print("Call starting");
-    http.Response response =
-        await http.get("https://poetrydb.org/author,title/Shakespeare;Sonnet");
-    if (response.statusCode == 200) {
-      dynamic poemData = jsonDecode(response.body);
-      int noOfPoems = poemData.length;
-
-      for (int x = 0; x < noOfPoems; x++) {
-        int lineCount = int.parse(poemData[x]["linecount"]);
-        String myPoem = "";
-        for (int y = 0; y < lineCount; y++) {
-          myPoem = myPoem + "\n" + poemData[x]["lines"][y];
-        }
-        poemModel.addPoem(myPoem);
+    try {
+      http.Response response = await http
+          .get("https://poetrydb.org/author,title/Shakespeare;Sonnet");
+      if (response.statusCode == 200) {
+        dynamic poemData = jsonDecode(response.body);
+        print("${poemData.runtimeType}");
+        int noOfPoems = poemData.length;
         String myTitle;
         String myAuthor;
-        myAuthor = poemData[x]["author"];
-        myTitle = poemData[x]["title"];
-        poemModel.addAuthor(myAuthor);
-        poemModel.addTitle(myTitle);
+        for (int x = 0; x < noOfPoems; x++) {
+          int lineCount = int.parse(poemData[x]["linecount"]);
+          String myPoem = "";
+          for (int y = 0; y < lineCount; y++) {
+            myPoem = myPoem + "\n" + poemData[x]["lines"][y];
+          }
+          poemModel.addPoem(myPoem);
+          myAuthor = poemData[x]["author"];
+          myTitle = poemData[x]["title"];
+          poemModel.addAuthor(myAuthor);
+          poemModel.addTitle(myTitle);
+        }
+      } else {
+        print("Error ${response.statusCode}");
       }
-    } else {
-      print("Error ${response.statusCode}");
+    } catch (e) {
+      print(e);
     }
   }
 }

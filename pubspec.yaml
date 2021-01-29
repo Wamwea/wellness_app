@@ -28,6 +28,9 @@ dependencies:
   bubble_bottom_bar: ^1.2.0
   google_fonts: ^1.1.1
   http: ^0.12.2
+  firebase_core: ^0.7.0
+  firebase_auth: ^0.20.0+1
+  cloud_firestore: ^0.16.0
   flutter_snake_navigationbar: ^0.4.2
 dev_dependencies:
   flutter_test:

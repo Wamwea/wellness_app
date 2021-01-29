@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "341877442759",
+    "project_id": "wellnessapp-32ca7",
+    "storage_bucket": "wellnessapp-32ca7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341877442759:android:540c747bf82bb9282f56e2",
+        "android_client_info": {
+          "package_name": "com.wamwea.wellness_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "341877442759-qlqkqklcitidt69tvgj2pg8leud8h6kc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkRtHDlkMMtPLiOH1_sRq2aUm5tQ48kts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "341877442759-qlqkqklcitidt69tvgj2pg8leud8h6kc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
