@@ -1,16 +1,23 @@
-class PoemModel {
-  static List<String> myPoems = [];
-  static List<String> poemAuthor = [];
-  static List<String> poemTitles = [];
-  void addAuthor(String author) {
-    poemAuthor.add(author);
+import 'package:flutter/cupertino.dart';
+import 'package:wellness_app/Data%20Classes/ThoughtPost.dart';
+
+class ThoughtBubbleModel extends ChangeNotifier {
+  List<ThoughtPost> postList = new List();
+  int getPostNumber() {
+    return postList.length;
   }
 
-  void addPoem(String poem) {
-    myPoems.add(poem);
+  void addPost(ThoughtPost post) {
+    postList.add(post);
+    notifyListeners();
   }
 
-  void addTitle(String poemTitle) {
-    poemTitles.add(poemTitle);
+  ThoughtPost getPost(int index) {
+    return postList[index];
+  }
+
+  void removePost(int index) {
+    postList.removeAt(index);
+    notifyListeners();
   }
 }

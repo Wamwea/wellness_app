@@ -54,18 +54,36 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: ListView.builder(
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50))),
-                          alignment: index.isEven
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          height: 30,
-                          child: Text(messages[index]),
+                      return Align(
+                        alignment: index.isOdd
+                            ? Alignment.centerLeft
+                            : Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 6.0, right: 6.0, bottom: 5, top: 5),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                gradient: index.isOdd
+                                    ? LinearGradient(colors: [
+                                        Colors.purple.shade600,
+                                        Colors.deepPurpleAccent.shade700,
+                                      ])
+                                    : null,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            child: Text(
+                              messages[index],
+                              style: GoogleFonts.comfortaa(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: index.isOdd
+                                          ? Colors.white
+                                          : Colors.black)),
+                            ),
+                          ),
                         ),
                       );
                     }),
@@ -109,10 +127,11 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: Container(
                             height: maxHeight * 1,
                             decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Colors.black,
                                 borderRadius: BorderRadius.circular(20)),
                             child: Icon(
-                              Icons.arrow_forward_ios_sharp,
+                              Icons.send,
+                              color: Colors.white,
                               size: 30,
                             ),
                           ),

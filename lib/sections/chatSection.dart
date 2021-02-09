@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wellness_app/Models/userModel.dart';
 import 'package:wellness_app/screens/ChatScreen.dart';
+import 'package:wellness_app/main.dart';
 
-class Page2 extends StatelessWidget {
+class Page2 extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    UserModel userModel = watch(userProvider);
     return Container(
       height: MediaQuery.of(context).size.height,
       width: double.infinity,
@@ -34,7 +38,7 @@ class Page2 extends StatelessWidget {
           Expanded(
             child: Container(
               child: ListView.builder(
-                  itemCount: 4,
+                  itemCount: userModel.userList.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(5.0),
@@ -79,7 +83,7 @@ class Page2 extends StatelessWidget {
                                         padding:
                                             const EdgeInsets.only(left: 14.0),
                                         child: Text(
-                                          "ChatSubject",
+                                          "${userModel.getUser(index).username}",
                                           style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold),

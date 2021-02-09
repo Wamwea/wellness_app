@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wellness_app/screens/LoadingScreen.dart';
-import 'package:wellness_app/screens/network%20screen.dart';
-import 'home_screen.dart';
-import 'package:wellness_app/services/networking.dart';
+import 'package:wellness_app/screens/RegistrationScreen.dart';
+import 'package:wellness_app/Components/TextBoxComponent.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wellness_app/Components/ButtonComponent.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,16 +13,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  Networking networking = Networking();
-  String text;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  String email;
+  String password;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  }
-
-  dynamic getValue() async {
-    return await networking.getPoems();
   }
 
   @override
@@ -29,17 +28,19 @@ class _LoginScreenState extends State<LoginScreen> {
     double maxHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         resizeToAvoidBottomInset: false,
         resizeToAvoidBottomPadding: false,
         body: Container(
+          height: maxHeight,
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
-          height: maxHeight,
           width: double.infinity,
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Colors.lime, Colors.teal],
+//                  colors: [Colors.lime, Colors.teal],
+                  colors: [Colors.blueGrey, Colors.indigo],
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft)),
           child: SingleChildScrollView(
@@ -51,17 +52,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 18.0),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            width: MediaQuery.of(context).size.height * 0.3,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: AssetImage("assets/logo.jpg"),
-                                    fit: BoxFit.cover)),
+                          child: Hero(
+                            tag: "asf",
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              width: MediaQuery.of(context).size.height * 0.3,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: AssetImage("assets/logo.jpg"),
+                                      fit: BoxFit.cover)),
+                            ),
                           ),
                         ),
                         Padding(
@@ -74,99 +79,70 @@ class _LoginScreenState extends State<LoginScreen> {
                             textAlign: TextAlign.justify,
                             textStyle: GoogleFonts.lobster(
                                 textStyle: TextStyle(
-                                    color: Colors.black,
+                                    color: Color(0xff002241),
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold)),
                           )),
                         ),
-                        Container(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                      filled: true,
-                                      hintText: "Email",
-                                      fillColor: Colors.white,
-                                      prefixIcon: Icon(Icons.email),
-                                      enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 1, color: Colors.black))),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                      filled: true,
-                                      prefixIcon: Icon(Icons.lock),
-                                      fillColor: Colors.white,
-                                      hintText: "Password",
-                                      enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 1, color: Colors.black))),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return HomeScreen();
-                            }));
+                        TextBoxComponent(
+                          onChanged: (value) {
+                            email = value;
                           },
+                          hintText: "Email",
+                          icon: Icon(Icons.email_outlined),
+                        ),
+                        TextBoxComponent(
+                          onChanged: (value) {
+                            password = value;
+                          },
+                          hintText: "PassWord",
+                          icon: Icon(Icons.lock_outlined),
+                          obscureText: true,
+                        ),
+                        ButtonComponent(
+                            label: "Log in",
+                            onTap: () async {
+                              _scaffoldKey.currentState.showSnackBar(
+                                  SnackBar(content: Text("Loading")));
+                              await _auth.signInWithEmailAndPassword(
+                                  email: email, password: password);
+                              print("Sign In Successful");
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return LoadingScreen();
+                              }));
+                            }),
+                        Center(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 50.0),
-                            child: Material(
-                              elevation: 10,
-                              borderRadius: BorderRadius.circular(30),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    gradient: LinearGradient(
-                                        colors: [
-                                          Colors.purple.shade600,
-                                          Colors.deepPurpleAccent.shade700,
-                                        ],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight)),
-                                height: 50,
-                                width: double.infinity,
-                                child: Center(child: Text("Log In")),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 18.0, vertical: 10),
-                          child: Row(
-                            children: [
-                              Text("Don't have an account?"),
-                              GestureDetector(
-                                onTap: () async {
-                                  text = await getValue();
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return HomeScreen();
-                                  }));
-                                },
-                                child: Text(
-                                  "Sign Up",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 18.0, vertical: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Don't have an account?",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xff002241),
+                                  ),
                                 ),
-                              )
-                            ],
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return RegistrationScreen();
+                                    }));
+                                  },
+                                  child: Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xff002241),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         )
                       ],
@@ -176,25 +152,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class SignUp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.blue,
-          ),
-          backgroundColor: Colors.red,
         ),
       ),
     );
