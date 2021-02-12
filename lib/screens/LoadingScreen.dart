@@ -31,8 +31,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
     });
     await _firebaseFirestore.collection('ThoughtFeed').get().then((value) {
       value.docs.forEach((element) async {
-        ThoughtPost newThought = ThoughtPost(element['username'].toString(),
-            element['title'].toString(), element['content'].toString());
+        ThoughtPost newThought = ThoughtPost(
+            element['username'].toString(),
+            element['title'].toString(),
+            element['content'].toString(),
+            element['email'].toString());
         print('${element['username']}');
         context.read(thoughtFeedProvider).addPost(newThought);
         print("No of thoughts: ${thoughtBubbleModel.getPostNumber()}");

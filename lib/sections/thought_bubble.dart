@@ -32,19 +32,8 @@ class ThoughtBubbleSection extends ConsumerWidget {
         print("no of users: ${userModel.userList.length}");
       });
     });
-    await _firebaseFirestore.collection('ThoughtFeed').get().then((value) {
-      value.docs.forEach((element) async {
-        ThoughtPost newThought = ThoughtPost(element['username'].toString(),
-            element['title'].toString(), element['content'].toString());
-        print('${element['username']}');
-        await thoughtBubbleModel.addPost(newThought);
-        print("No of thoughts: ${thoughtBubbleModel.getPostNumber()}");
-      });
-    });
-    print("Finished getting");
-    print("Call starting ${_auth.currentUser.email}");
     dynamic myUsername;
-    final myData = await _firebaseFirestore
+    await _firebaseFirestore
         .collection('Users')
         .doc('${_auth.currentUser.email}')
         .get()
@@ -61,7 +50,6 @@ class ThoughtBubbleSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    print("${ThoughtBubbleModel().postList.length}");
     ThoughtBubbleModel thoughtBubbleModel = watch(thoughtFeedProvider);
     double maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -85,21 +73,6 @@ class ThoughtBubbleSection extends ConsumerWidget {
                     GestureDetector(
                         onTap: () async {
                           getStream();
-                          await _firebaseFirestore
-                              .collection('ThoughtFeed')
-                              .get()
-                              .then((value) {
-                            value.docs.forEach((element) async {
-                              ThoughtPost newThought = ThoughtPost(
-                                  element['username'].toString(),
-                                  element['title'].toString(),
-                                  element['content'].toString());
-                              print('${element['username']}');
-                              await thoughtBubbleModel.addPost(newThought);
-                              print(
-                                  "No of thoughts: ${thoughtBubbleModel.getPostNumber()}");
-                            });
-                          });
                         },
                         child: Icon(Icons.settings_rounded)),
                     Text(
@@ -188,7 +161,41 @@ class ThoughtBubbleSection extends ConsumerWidget {
                                           padding: const EdgeInsets.only(
                                               top: 3.0, bottom: 3),
                                           child: GestureDetector(
-                                            onTap: () {},
+                                            onTap: () async {
+                                              print('submitting data');
+                                              dynamic myUsername;
+                                              await _firebaseFirestore
+                                                  .collection('Users')
+                                                  .doc(
+                                                      '${_auth.currentUser.email}')
+                                                  .get()
+                                                  .then((snapshot) {
+                                                myUsername =
+                                                    snapshot.data()['username'];
+                                              });
+                                              print('username obtained');
+                                              await _firebaseFirestore
+                                                  .collection("ThoughtFeed")
+                                                  .add({
+                                                'content': newPostText,
+                                                'username': myUsername,
+                                                'email':
+                                                    _auth.currentUser.email,
+                                                'title': newPostTitle,
+                                              }).then((value) {
+                                                ThoughtPost newPost =
+                                                    ThoughtPost(
+                                                        myUsername,
+                                                        newPostTitle,
+                                                        newPostText,
+                                                        _auth
+                                                            .currentUser.email);
+                                                thoughtBubbleModel
+                                                    .addPost(newPost);
+                                              });
+                                              print(
+                                                  "Data submitted succesfully");
+                                            },
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   gradient: LinearGradient(
