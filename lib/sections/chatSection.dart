@@ -40,13 +40,14 @@ class Page2 extends ConsumerWidget {
               child: ListView.builder(
                   itemCount: userModel.userList.length,
                   itemBuilder: (context, index) {
+                    String userEmail = userModel.userList[index].email;
                     return Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return ChatScreen();
+                            return ChatScreen(userEmail);
                           }));
                         },
                         child: Container(
