@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wellness_app/Data%20Classes/Task.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class Page3 extends StatefulWidget {
   @override
@@ -101,7 +102,6 @@ class _Page3State extends State<Page3> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () async {
-                              print("Task Submission Started");
                               await _firebaseFirestore
                                   .collection('Users')
                                   .doc('${_auth.currentUser.email}')
@@ -112,7 +112,6 @@ class _Page3State extends State<Page3> {
                                 'time': Timestamp.now(),
                                 'isDone': false,
                               });
-                              print("Task Pushed successfully");
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 3.0),
@@ -156,7 +155,11 @@ class _Page3State extends State<Page3> {
               ], begin: Alignment.topLeft, end: Alignment.bottomRight),
               color: Colors.red,
               shape: BoxShape.circle),
-          child: Icon(Icons.add),
+          child: Icon(
+            Icons.add,
+            size: 30,
+            color: Colors.white,
+          ),
         ),
       ),
       body: Container(
@@ -221,9 +224,11 @@ class _Page3State extends State<Page3> {
                         child: ListView.builder(
                             itemCount: snapshot.data.docs.length,
                             itemBuilder: (context, index) {
+                              DateTime myTime = snapshot.data.docs[index]
+                                  .get("time")
+                                  .toDate();
                               return TaskTile(
                                 onTap: () async {
-                                  print("isTapped");
                                   QuerySnapshot myTaskLocation =
                                       await _firebaseFirestore
                                           .collection("Users")
@@ -232,7 +237,6 @@ class _Page3State extends State<Page3> {
                                           .get();
                                   QueryDocumentSnapshot documentSnapShot =
                                       myTaskLocation.docs[index];
-                                  print("${documentSnapShot.get("isDone")}");
                                   await documentSnapShot.reference.update({
                                     "isDone":
                                         snapshot.data.docs[index].get('isDone')
@@ -240,6 +244,7 @@ class _Page3State extends State<Page3> {
                                             : true
                                   });
                                 },
+                                time: timeago.format(myTime).toString(),
                                 isDone: snapshot.data.docs[index].get('isDone'),
                                 taskTitle:
                                     snapshot.data.docs[index].get('taskTitle'),
@@ -266,12 +271,14 @@ class TaskTile extends StatelessWidget {
     this.isDone,
     this.taskTitle,
     this.onTap,
+    this.time,
     Key key,
   }) : super(key: key);
   final Function onTap;
   final String taskDescription;
   final String taskTitle;
   final bool isDone;
+  final String time;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -294,6 +301,12 @@ class TaskTile extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          "${time.toString()}",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.lime),
+                        ),
                         Text(
                           "$taskTitle",
                           maxLines: 1,

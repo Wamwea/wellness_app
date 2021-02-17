@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FeedBubbleComponent extends StatelessWidget {
-  FeedBubbleComponent(Key key, {this.poemText, this.poemTitle, this.poemAuthor})
+  FeedBubbleComponent(Key key,
+      {this.poemText, this.poemTitle, this.poemAuthor, @required this.time})
       : super(key: key);
   final String poemText;
   final String poemTitle;
   final String poemAuthor;
+  final String time;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,6 +48,12 @@ class FeedBubbleComponent extends StatelessWidget {
                             "$poemAuthor",
                             style: TextStyle(
                                 color: Colors.lime,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "$time",
+                            style: TextStyle(
+                                color: Colors.grey,
                                 fontWeight: FontWeight.bold),
                           ),
                         ],

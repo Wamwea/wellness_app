@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wellness_app/Data Classes/Message.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ChatScreen extends StatefulWidget {
   ChatScreen(this.userEmail, this.userName);
@@ -37,8 +38,10 @@ class _ChatScreenState extends State<ChatScreen> {
             List<MessageBubble> myMessages = [];
             final documents = snapshot.data.docs.reversed;
             for (var document in documents) {
+              Timestamp myTime = document.get('time');
               MessageBubble myMessage = MessageBubble(
                 message: document.get('content'),
+                time: timeago.format(myTime.toDate()).toString(),
                 isUser: document.get('sender') == _auth.currentUser.email
                     ? false
                     : true,
@@ -204,10 +207,12 @@ class MessageBubble extends StatelessWidget {
     Key key,
     @required this.message,
     this.isUser,
+    @required this.time,
   }) : super(key: key);
 
   final String message;
   final bool isUser;
+  final String time;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -228,12 +233,23 @@ class MessageBubble extends StatelessWidget {
                     ])
                   : null,
               borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Text(
-            message,
-            style: GoogleFonts.comfortaa(
-                textStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: isUser ? Colors.white : Colors.black)),
+          child: Column(
+            children: [
+              Text(
+                message,
+                style: GoogleFonts.comfortaa(
+                    textStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: isUser ? Colors.white : Colors.black)),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  "$time",
+                  style: TextStyle(color: Colors.grey, fontSize: 13),
+                ),
+              )
+            ],
           ),
         ),
       ),

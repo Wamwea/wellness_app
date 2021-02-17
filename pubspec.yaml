@@ -28,6 +28,7 @@ dependencies:
   flutter_riverpod: ^0.12.4
   animated_text_kit: ^3.1.0
   bubble_bottom_bar: ^1.2.0
+  timeago: ^2.0.29
   google_fonts: ^1.1.1
   http: ^0.12.2
   firebase_core: ^0.7.0

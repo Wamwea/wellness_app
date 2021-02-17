@@ -10,6 +10,7 @@ import 'package:wellness_app/main.dart';
 import 'package:wellness_app/screens/LoadingScreen.dart';
 import 'package:wellness_app/Data Classes/ThoughtPost.dart';
 import 'package:wellness_app/Data Classes/User.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ThoughtBubbleSection extends ConsumerWidget {
   String newPostTitle;
@@ -195,14 +196,16 @@ class ThoughtBubbleSection extends ConsumerWidget {
                                                 'email':
                                                     _auth.currentUser.email,
                                                 'title': newPostTitle,
+                                                'time': Timestamp.now(),
                                               }).then((value) {
                                                 ThoughtPost newPost =
                                                     ThoughtPost(
-                                                        myUsername,
-                                                        newPostTitle,
-                                                        newPostText,
-                                                        _auth
-                                                            .currentUser.email);
+                                                        username: myUsername,
+                                                        title: newPostTitle,
+                                                        content: newPostText,
+                                                        email: _auth
+                                                            .currentUser.email,
+                                                        time: Timestamp.now());
                                                 thoughtBubbleProvider
                                                     .addPost(newPost);
                                               });
@@ -275,9 +278,14 @@ class ThoughtBubbleSection extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       return FeedBubbleComponent(
                         PageStorageKey("MyState"),
+                        time: timeago
+                            .format(thoughtBubbleProvider.postList[index].time
+                                .toDate())
+                            .toString(),
                         poemText: thoughtBubbleProvider.postList[index].content,
                         poemTitle: thoughtBubbleProvider.postList[index].title,
-                        poemAuthor: thoughtBubbleProvider.postList[index].username,
+                        poemAuthor:
+                            thoughtBubbleProvider.postList[index].username,
                       );
                     }),
               )),
