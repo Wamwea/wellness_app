@@ -37,9 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
             selectedItemGradient:
                 LinearGradient(colors: [Colors.white, Colors.white]),
             unselectedItemGradient:
-                LinearGradient(colors: [Colors.black, Colors.black]),
+                LinearGradient(colors: [Colors.lime, Colors.lime]),
             backgroundGradient:
-                LinearGradient(colors: [Color(0xffF2DFCE), Color(0xffF2DFCF)]),
+                LinearGradient(colors: [Color(0xff001838), Color(0xff001839)]),
             snakeViewGradient: LinearGradient(colors: [
               Colors.purple.shade600,
               Colors.deepPurpleAccent.shade700,

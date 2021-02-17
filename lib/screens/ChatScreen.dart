@@ -6,9 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wellness_app/Data Classes/Message.dart';
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen(this.userEmail);
+  ChatScreen(this.userEmail, this.userName);
   final String userEmail;
-
+  final String userName;
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -48,15 +48,15 @@ class _ChatScreenState extends State<ChatScreen> {
             return SafeArea(
               child: Scaffold(
                 body: Container(
-                  color: Colors.white,
                   height: maxHeight,
                   width: double.infinity,
                   child: Column(
                     children: [
                       Container(
-                        color: Color(0xffF2DFCE),
+                        decoration: BoxDecoration(color: Color(0xff001838)),
                         height: maxHeight * 0.09,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
                               onTap: () {
@@ -65,16 +65,21 @@ class _ChatScreenState extends State<ChatScreen> {
                               child: Icon(
                                 Icons.arrow_back_sharp,
                                 size: 30,
+                                color: Colors.lime,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Text(
-                                "$collectionName",
-                                style: GoogleFonts.shadowsIntoLight(
-                                    textStyle: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
+                            Expanded(
+                              child: Container(
+                                child: Center(
+                                  child: Text(
+                                    "${widget.userName}",
+                                    style: GoogleFonts.shadowsIntoLight(
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.lime,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                ),
                               ),
                             )
                           ],
@@ -83,14 +88,24 @@ class _ChatScreenState extends State<ChatScreen> {
                       Expanded(
                           child: Container(
                               padding: EdgeInsets.only(bottom: 8),
-                              color: Color(0xffFFF1E5),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xff56ab2f),
+                                      Color(0xffa8e063)
+                                    ],
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft),
+                              ),
                               width: double.infinity,
                               child: ListView(
                                 reverse: true,
                                 children: myMessages,
                               ))),
                       Container(
-                        color: Color(0xffF2DFCE),
+                        decoration: BoxDecoration(
+                          color: Color(0xff001838),
+                        ),
                         width: double.infinity,
                         height: maxHeight * 0.07,
                         child: Row(
@@ -162,7 +177,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                             BorderRadius.circular(20)),
                                     child: Icon(
                                       Icons.send,
-                                      color: Colors.white,
+                                      color: Colors.lime,
                                       size: 30,
                                     ),
                                   ),

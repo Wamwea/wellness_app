@@ -50,7 +50,7 @@ class ThoughtBubbleSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    ThoughtBubbleModel thoughtBubbleModel = watch(thoughtFeedProvider);
+    ThoughtBubbleModel thoughtBubbleProvider = watch(thoughtFeedProvider);
     double maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       key: _scaffoldKey,
@@ -60,7 +60,7 @@ class ThoughtBubbleSection extends ConsumerWidget {
             elevation: 10,
             child: Container(
               decoration: BoxDecoration(
-                  color: Color(0xffF2DFCE),
+                  color: Color(0xff001838),
                   border: Border(
                       bottom: BorderSide(color: Colors.black, width: 0.2))),
               height: MediaQuery.of(context).size.height * 0.08,
@@ -74,25 +74,38 @@ class ThoughtBubbleSection extends ConsumerWidget {
                         onTap: () async {
                           getStream();
                         },
-                        child: Icon(Icons.settings_rounded)),
+                        child: Icon(
+                          Icons.settings_rounded,
+                          color: Colors.lime,
+                        )),
                     Text(
                       "Thought Bubble",
                       style: GoogleFonts.shadowsIntoLight(
                           textStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
+                              color: Colors.lime,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold)),
                     ),
                     GestureDetector(
                       onTap: () {
                         _scaffoldKey.currentState.showBottomSheet((context) {
                           return Container(
-                            color: Color(0xffFFF1E5),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xff56ab2f),
+                                    Color(0xffa8e063)
+                                  ],
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft),
+                            ),
                             height: maxHeight * 0.6,
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(30),
                                     topRight: Radius.circular(30)),
-                                color: Color(0xffF2DFCE),
+                                color: Color(0xff001838),
                               ),
                               child: LayoutBuilder(
                                 builder: (context, constraints) {
@@ -190,7 +203,7 @@ class ThoughtBubbleSection extends ConsumerWidget {
                                                         newPostText,
                                                         _auth
                                                             .currentUser.email);
-                                                thoughtBubbleModel
+                                                thoughtBubbleProvider
                                                     .addPost(newPost);
                                               });
                                               print(
@@ -234,6 +247,7 @@ class ThoughtBubbleSection extends ConsumerWidget {
                       },
                       child: Icon(
                         Icons.add,
+                        color: Colors.lime,
                         size: 40,
                       ),
                     )
@@ -244,20 +258,29 @@ class ThoughtBubbleSection extends ConsumerWidget {
           ),
           Expanded(
             child: Container(
-              color: Color(0xffFFF1E5),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Color(0xff56ab2f), Color(0xffa8e063)],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft),
+              ),
               width: double.infinity,
               child: Center(
-                  child: ListView.builder(
-                      itemCount: thoughtBubbleModel.postList.length,
-                      itemBuilder: (context, index) {
-                        return FeedBubbleComponent(
-                          PageStorageKey("MyState"),
-                          poemText: thoughtBubbleModel.postList[index].content,
-                          poemTitle: thoughtBubbleModel.postList[index].title,
-                          poemAuthor:
-                              thoughtBubbleModel.postList[index].username,
-                        );
-                      })),
+                  child: Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 5.0,
+                ),
+                child: ListView.builder(
+                    itemCount: thoughtBubbleProvider.postList.length,
+                    itemBuilder: (context, index) {
+                      return FeedBubbleComponent(
+                        PageStorageKey("MyState"),
+                        poemText: thoughtBubbleProvider.postList[index].content,
+                        poemTitle: thoughtBubbleProvider.postList[index].title,
+                        poemAuthor: thoughtBubbleProvider.postList[index].username,
+                      );
+                    }),
+              )),
             ),
           )
         ],

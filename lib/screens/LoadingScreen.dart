@@ -26,7 +26,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
         MyUser newUser =
             MyUser(element['username'], element['email'], element['password']);
         context.read(userProvider).addToUserList(newUser);
-        print("no of users: ${userModel.userList.length}");
       });
     });
     await _firebaseFirestore.collection('ThoughtFeed').get().then((value) {
@@ -57,11 +56,31 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [CircularProgressIndicator(), Text("Loading Data")],
+    return Scaffold(
+      body: Center(
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+//                  colors: [Colors.lime, Colors.teal],
+                  colors: [Colors.blueGrey, Colors.indigo],
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Loading Data...",
+                style: TextStyle(fontSize: 20, decoration: null),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              CircularProgressIndicator(
+                backgroundColor: Colors.red,
+              )
+            ],
+          ),
         ),
       ),
     );

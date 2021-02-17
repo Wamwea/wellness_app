@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:wellness_app/Data Classes/User.dart';
+import 'package:wellness_app/Data Classes/Task.dart';
 
 class UserModel extends ChangeNotifier {
   List<MyUser> userList = [];
@@ -15,5 +16,9 @@ class UserModel extends ChangeNotifier {
   void removeUser(int index) {
     userList.removeAt(index);
     notifyListeners();
+  }
+
+  void addUserTask(int index, Task newTask) {
+    userList[index].userTasks.add(newTask);
   }
 }

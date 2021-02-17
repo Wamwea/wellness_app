@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FeedBubbleComponent extends StatelessWidget {
   FeedBubbleComponent(Key key, {this.poemText, this.poemTitle, this.poemAuthor})
@@ -12,8 +13,10 @@ class FeedBubbleComponent extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(8, 15, 8, 0),
       child: Container(
         decoration: BoxDecoration(
-            color: Color(0xffEBE4DC), borderRadius: BorderRadius.circular(5)),
-        height: MediaQuery.of(context).size.height * 0.4,
+            color: Color(0xff001838), borderRadius: BorderRadius.circular(5)),
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.39,
+        ),
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -41,15 +44,10 @@ class FeedBubbleComponent extends StatelessWidget {
                         children: [
                           Text(
                             "$poemAuthor",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "8 March 2019",
                             style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
+                                color: Colors.lime,
                                 fontWeight: FontWeight.bold),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -66,11 +64,16 @@ class FeedBubbleComponent extends StatelessWidget {
                         "$poemTitle",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
                       ),
                       Text(
                         "$poemText",
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
                       ),
                     ],
                   ),
