@@ -9,6 +9,11 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetList() {
+    userList = [];
+    notifyListeners();
+  }
+
   MyUser getUser(int index) {
     return userList[index];
   }

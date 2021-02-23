@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellness_app/Components/FeedBubbleComponent.dart';
 import 'package:wellness_app/Models/thoughtBubbleModel.dart';
 import 'package:wellness_app/main.dart';
@@ -11,12 +12,14 @@ import 'package:wellness_app/screens/LoadingScreen.dart';
 import 'package:wellness_app/Data Classes/ThoughtPost.dart';
 import 'package:wellness_app/Data Classes/User.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:wellness_app/screens/login_screen.dart';
 
 class ThoughtBubbleSection extends ConsumerWidget {
   String newPostTitle;
 
   String newPostText;
-
+  TextEditingController myController = TextEditingController();
+  TextEditingController myController2 = TextEditingController();
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -53,7 +56,43 @@ class ThoughtBubbleSection extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     ThoughtBubbleModel thoughtBubbleProvider = watch(thoughtFeedProvider);
     double maxHeight = MediaQuery.of(context).size.height;
+    double maxWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      drawer: Drawer(
+        child: Container(
+          color: Color(0xff001838),
+          child: Column(
+            children: [
+              GestureDetector(
+                onTap: () async {
+                  SharedPreferences preferences =
+                      await SharedPreferences.getInstance();
+                  await _auth.signOut();
+                  preferences.clear();
+                  context.read(userProvider).resetList();
+                  context.read(thoughtFeedProvider).resetList();
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return LoginScreen();
+                  }));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 15),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    width: double.infinity,
+                    child: Center(child: Text("Log out")),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       key: _scaffoldKey,
       body: Column(
         children: [
@@ -74,6 +113,7 @@ class ThoughtBubbleSection extends ConsumerWidget {
                     GestureDetector(
                         onTap: () async {
                           getStream();
+                          _scaffoldKey.currentState.openDrawer();
                         },
                         child: Icon(
                           Icons.settings_rounded,
@@ -127,6 +167,7 @@ class ThoughtBubbleSection extends ConsumerWidget {
                                             onChanged: (value) {
                                               newPostTitle = value;
                                             },
+                                            controller: myController,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                             decoration: InputDecoration(
@@ -155,6 +196,7 @@ class ThoughtBubbleSection extends ConsumerWidget {
                                           onChanged: (value) {
                                             newPostText = value;
                                           },
+                                          controller: myController2,
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
                                               focusedBorder: InputBorder.none,
@@ -211,6 +253,8 @@ class ThoughtBubbleSection extends ConsumerWidget {
                                               });
                                               print(
                                                   "Data submitted succesfully");
+                                              myController.clear();
+                                              myController2.clear();
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(
@@ -274,6 +318,7 @@ class ThoughtBubbleSection extends ConsumerWidget {
                   bottom: 5.0,
                 ),
                 child: ListView.builder(
+                    reverse: true,
                     itemCount: thoughtBubbleProvider.postList.length,
                     itemBuilder: (context, index) {
                       return FeedBubbleComponent(

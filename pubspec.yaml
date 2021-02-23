@@ -30,6 +30,7 @@ dependencies:
   bubble_bottom_bar: ^1.2.0
   timeago: ^2.0.29
   google_fonts: ^1.1.1
+  shared_preferences: ^0.5.12+4
   http: ^0.12.2
   firebase_core: ^0.7.0
   firebase_auth: ^0.20.0+1

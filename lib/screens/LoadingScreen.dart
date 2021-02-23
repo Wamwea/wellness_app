@@ -28,7 +28,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
         context.read(userProvider).addToUserList(newUser);
       });
     });
-    await _firebaseFirestore.collection('ThoughtFeed').get().then((value) {
+    await _firebaseFirestore
+        .collection('ThoughtFeed')
+        .orderBy("time")
+        .get()
+        .then((value) {
       value.docs.forEach((element) async {
         ThoughtPost newThought = ThoughtPost(
             username: element['username'].toString(),

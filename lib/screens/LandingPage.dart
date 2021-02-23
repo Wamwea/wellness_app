@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wellness_app/screens/LoadingScreen.dart';
 import 'package:wellness_app/screens/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -8,6 +11,7 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void initState() {
     // TODO: implement initState
@@ -16,10 +20,19 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> startApp() async {
-    await Firebase.initializeApp();
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return LoginScreen();
-    }));
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.containsKey("email")) {
+      await _auth.signInWithEmailAndPassword(
+          email: preferences.getString("email"),
+          password: preferences.getString("password"));
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return LoadingScreen();
+      }));
+    } else {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return LoginScreen();
+      }));
+    }
   }
 
   @override

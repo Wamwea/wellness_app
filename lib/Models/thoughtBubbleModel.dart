@@ -7,6 +7,11 @@ class ThoughtBubbleModel extends ChangeNotifier {
     return postList.length;
   }
 
+  void resetList() {
+    postList = [];
+    notifyListeners();
+  }
+
   void addPost(ThoughtPost post) {
     postList.add(post);
     notifyListeners();

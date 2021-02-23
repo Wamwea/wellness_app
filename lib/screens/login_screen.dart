@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellness_app/screens/LoadingScreen.dart';
 import 'package:wellness_app/screens/RegistrationScreen.dart';
 import 'package:wellness_app/Components/TextBoxComponent.dart';
@@ -102,11 +103,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         ButtonComponent(
                             label: "Log in",
                             onTap: () async {
+                              SharedPreferences preferences =
+                                  await SharedPreferences.getInstance();
                               _scaffoldKey.currentState.showSnackBar(
                                   SnackBar(content: Text("Loading")));
-                              await _auth.signInWithEmailAndPassword(
-                                  email: email, password: password);
+                              await _auth
+                                  .signInWithEmailAndPassword(
+                                      email: email, password: password)
+                                  .then((value) {
+                                preferences.setString("email", email);
+                                preferences.setString("password", password);
+                              });
                               print("Sign In Successful");
+
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                 return LoadingScreen();

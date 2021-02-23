@@ -234,6 +234,7 @@ class MessageBubble extends StatelessWidget {
                   : null,
               borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 message,

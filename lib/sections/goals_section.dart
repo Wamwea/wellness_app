@@ -176,7 +176,9 @@ class _Page3State extends State<Page3> {
                 .collection("Users")
                 .doc(_auth.currentUser.email)
                 .collection("Tasks")
-                .orderBy("time", descending: true)
+                .orderBy(
+                  "time",
+                )
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {

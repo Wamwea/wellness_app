@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wellness_app/screens/LandingPage.dart';
 import 'screens/login_screen.dart';
 import 'package:wellness_app/Models/thoughtBubbleModel.dart';
 import 'package:wellness_app/Models/userModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final userProvider = ChangeNotifierProvider<UserModel>((reference) {
   return UserModel();
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)),
-      home: LoginScreen(),
+      home: LandingPage(),
       debugShowCheckedModeBanner: false,
     );
   }
